@@ -64,13 +64,13 @@ Numbered sections follow the template's editorial rail (label · index · headli
 ## Colour
 
 Strictly black → white, per brief. The template's orange accent became **pure white** — white slabs
-with near-black text, which is what carries the "accent" role now (menu, open process panel, ticker
-band, primary buttons, prices).
+with near-black text, which is what carries the "accent" role now (menu, open process panel,
+primary buttons, prices).
 
 ```
 --bg        #0B0B0B      --accent     #FFFFFF   (was #FA6E43)
 --surface   #141414      --on-accent  #0B0B0B
---surface-2 #1C1C1C      --text       #F2F0EE
+--surface-2 #1C1C1C      --text       #F1F1F1
 --surface-3 #242424      --text-2     #B9B9B9
 --line      rgba(255,255,255,.08)     --text-3  #8A8A8A
 --line-2    rgba(255,255,255,.16)     --text-4  #5E5E5E
@@ -109,8 +109,8 @@ Ported from the template, measured off the original rather than guessed:
 ### On mobile and tablet
 
 Everything above stays on, as asked. Verified running at 390px and 1024px:
-per-character scrub, hero particles, all five ticker marquees, the reels marquee, reveals,
-count-ups, and autoplaying video. The only deliberate differences:
+per-character scrub, hero particles, the reels marquee, both review rails, the sticky stacks,
+reveals, count-ups, and autoplaying video. The only deliberate differences:
 
 - Smooth-wheel is off on touch (native momentum feels better and avoids scroll-jacking).
 - Particle count is capped lower on small screens.
@@ -156,7 +156,7 @@ A back-to-top button appears bottom-right once you are past the first screen.
 
 ## Reference
 
-`_reference/` holds the teardown of the source template — the extracted entry-animation config
+`_reference/` (kept locally, not in this repo) holds the teardown of the source template — the extracted entry-animation config
 (`appear-animations.json`), its full CSS, per-section DOM dumps with computed styles, and
 screenshot sheets of both the original and this build. Not needed to run the site; keep it if you
 want to check a detail against the original.
