@@ -119,7 +119,7 @@ NAVBAR = f'''
     <div class="site-menu-socials">{menu_socials}</div>
   </div>
   <div class="site-menu-bar">
-    <span>{e(MENU_FOOT['place'])}</span>
+    <span class="site-menu-place" data-fallback="{e(MENU_FOOT['place'])}">{e(MENU_FOOT['place'])}</span>
     <span class="site-menu-clock" data-tz="{e(MENU_FOOT['timezone'])}">--:-- --</span>
   </div>
 </div>

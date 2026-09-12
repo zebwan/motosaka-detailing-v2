@@ -145,8 +145,12 @@ exhaust** on a loop.
 The menu itself is a **near-white slab** (`#EDEDED`) — the inverse of the site — flooding open on a
 clip-path circle grown from the bike. It holds a tight uppercase nav stack with superscript counts
 (`WORK⁽¹⁹⁾`, `PROCESS⁽⁴⁾`, `PACKAGES⁽⁶⁾`, `REVIEWS⁽⁹⁾`, `FAQ⁽⁸⁾`), the current place greyed out,
-hovering one link dimming the rest; a FOLLOW US block; and the studio's **live local time** in Johor
-Bahru along the bottom. The header sits above the panel and flips its logo and bike to ink, so the
+hovering one link dimming the rest; a FOLLOW US block; and **the viewer's own city and local time**
+along the bottom — read from the browser's IANA time zone
+(`Intl.DateTimeFormat().resolvedOptions().timeZone`), so there is no permission prompt and no IP
+lookup. A zone that carries no city (`UTC`, `Etc/GMT+8`) falls back to the studio's own Johor Bahru.
+Note the label is the time-zone city, so a visitor in JB reads "Kuala Lumpur" — both share
+`Asia/Kuala_Lumpur`. The header sits above the panel and flips its logo and bike to ink, so the
 bike stays visible as the toggle — there is no separate close button.
 
 A back-to-top button appears bottom-right once you are past the first screen.

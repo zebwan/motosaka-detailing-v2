@@ -97,14 +97,31 @@
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu());
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
-  /* studio clock in the menu — ticks only while the panel is open */
+  /* Local clock in the menu. Uses the viewer's own IANA time zone, which the
+     browser already knows — no permission prompt, no IP lookup, nothing leaves
+     the page. Falls back to the studio's city if the zone is unusable. */
   const clock = $('.site-menu-clock');
+  const place = $('.site-menu-place');
   let clockTimer = 0;
+  let zone = clock?.dataset.tz || 'Asia/Kuala_Lumpur';
+
+  (function resolveZone() {
+    if (!place) return;
+    let tz = '';
+    try { tz = Intl.DateTimeFormat().resolvedOptions().timeZone || ''; } catch { /* keep fallback */ }
+    // "Asia/Kuala_Lumpur" -> "Kuala Lumpur". Zones without a city part
+    // (UTC, Etc/GMT+8, a bare offset) tell us nothing, so leave the studio name.
+    const city = tz.includes('/') ? tz.split('/').pop().replace(/_/g, ' ') : '';
+    if (!city || /^GMT|^UTC/i.test(city)) return;
+    zone = tz;
+    place.textContent = city;
+  })();
+
   function tickClock() {
     if (!clock) return;
     try {
       clock.textContent = new Intl.DateTimeFormat('en-US', {
-        timeZone: clock.dataset.tz, hour: 'numeric', minute: '2-digit', hour12: true,
+        timeZone: zone, hour: 'numeric', minute: '2-digit', hour12: true,
       }).format(new Date());
     } catch { clock.textContent = ''; }
   }
