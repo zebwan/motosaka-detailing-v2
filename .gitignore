@@ -1,0 +1,4 @@
+# teardown material for the source template — reference only, not the website
+_reference/
+__pycache__/
+.DS_Store
