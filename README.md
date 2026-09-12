@@ -104,6 +104,7 @@ Ported from the template, measured off the original rather than guessed:
   ~960px over 820ms, the body is revealed by an unrolling clip-path and the copy slides in behind it.
   On mobile the same panel unfolds by height (`0fr → 1fr`), so it still reads as opening.
 - **Two review rails** running in opposite directions (−26 and +22 px/sec), pausing on hover.
+  Cards are 274×230 with the quote clamped to seven lines, so both rows sit on screen at once.
 - Scroll-into-view reveals with per-sibling stagger, count-up stats, parallax orbs.
 
 ### On mobile and tablet
@@ -133,9 +134,15 @@ transparency preserved.
 
 ### Navigation
 
-Desktop (≥1200px) shows the logo, the nav links and a Book Appointment button — no hamburger, since
-the links are already there. Below 1200px the links and button give way to the burger, which opens a
-full-screen menu that floods out of the button on a clip-path circle with the links staggering in.
+Desktop (≥1200px) shows the logo, the nav links and a Book Appointment button — no menu button,
+since the links are already there.
+
+Below 1200px they give way to a **motorcycle icon** instead of a hamburger: a hand-drawn inline SVG
+with an engine block, tank and exhaust. Its wheels roll on hover, and when the menu is open the bike
+leans forward and puffs **smoke out of the exhaust** on a loop. The header sits above the open menu
+so the icon stays visible as the toggle — there is no separate close button. The menu itself floods
+open on a clip-path circle grown from the icon, with the links staggering in behind it.
+
 A back-to-top button appears bottom-right once you are past the first screen.
 
 ## Needs client input

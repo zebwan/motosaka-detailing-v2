@@ -117,12 +117,14 @@ h1,h2,h3,p{margin:0}
 .scroll-progress i{display:block;height:100%;width:0;background:rgba(255,255,255,.5)}
 
 .site-head{
-  position:fixed;inset:0 0 auto 0;z-index:110;
+  position:fixed;inset:0 0 auto 0;z-index:140;
   padding:clamp(12px,1.5vw,18px) var(--rail);
   transition:background .32s var(--e-ui),backdrop-filter .32s var(--e-ui),
              box-shadow .32s var(--e-ui),padding .32s var(--e-ui);
 }
-.site-head.is-stuck{
+.site-head.is-over-menu{background:none;backdrop-filter:none;
+  -webkit-backdrop-filter:none;box-shadow:none}
+.site-head.is-stuck:not(.is-over-menu){
   background:rgba(11,11,11,.72);
   backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);
   box-shadow:0 1px 0 var(--line),0 10px 30px rgba(0,0,0,.45);
@@ -148,21 +150,42 @@ h1,h2,h3,p{margin:0}
 .site-head-cta svg{width:16px;height:16px}
 
 .site-burger{
-  display:none;flex-direction:column;justify-content:center;gap:5px;
-  width:44px;height:44px;padding:0 10px;flex:0 0 auto;margin-left:auto;
-  background:rgba(255,255,255,.09);border:1px solid var(--line);border-radius:12px;
+  display:none;place-items:center;
+  width:58px;height:44px;padding:0 8px;flex:0 0 auto;margin-left:auto;
+  background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:12px;
+  color:var(--accent);
+  transition:background var(--t-fast) var(--e-ui),border-color var(--t-fast) var(--e-ui)}
+.site-burger:hover{background:rgba(255,255,255,.13);border-color:var(--line-2)}
+.bike{width:42px;height:auto;overflow:visible}
+.bike-body,.bike-body-fill{transition:transform .45s var(--e-back)}
+.site-burger:hover .bike-body,.site-burger:hover .bike-body-fill{transform:translateX(1.5px)}
+
+/* the wheels roll a little on hover, and on press */
+.bike-body circle{transform-box:fill-box;transform-origin:50% 50%}
+.site-burger:hover .bike-body circle{animation:bikeRoll 1.6s linear infinite}
+@keyframes bikeRoll{to{transform:rotate(360deg)}}
+
+/* smoke only exists once the menu is open — puffs out of the exhaust */
+.bike-smoke circle{fill:currentColor;opacity:0;transform-box:fill-box;transform-origin:50% 50%;
+  transform:scale(.3)}
+.site-burger[aria-expanded="true"] .bike-smoke circle{animation:puff 1.9s var(--e-out) infinite}
+.site-burger[aria-expanded="true"] .bike-smoke circle:nth-child(2){animation-delay:.22s}
+.site-burger[aria-expanded="true"] .bike-smoke circle:nth-child(3){animation-delay:.44s}
+@keyframes puff{
+  0%  {opacity:0;   transform:translate(0,0) scale(.3)}
+  28% {opacity:.85; transform:translate(-1px,-1px) scale(1)}
+  100%{opacity:0;   transform:translate(-7px,-7px) scale(1.5)}
 }
-.site-burger span{display:block;height:2px;width:100%;background:var(--accent);border-radius:2px;
-  transition:transform .3s var(--e-back),opacity .2s var(--e-ui)}
-.site-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
-.site-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
-.site-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+/* and the bike leans forward, as though pulling away */
+.site-burger[aria-expanded="true"] .bike-body,
+.site-burger[aria-expanded="true"] .bike-body-fill{transform:translateX(3px)}
 
 /* full-screen menu — floods open on a clip-path circle grown from the burger */
 .site-menu{
   display:none;position:fixed;inset:0;z-index:130;background:var(--bg);
   flex-direction:column;
-  padding:14px clamp(18px,5vw,30px) calc(22px + env(safe-area-inset-bottom,0px));
+  padding:calc(78px + env(safe-area-inset-top,0px)) clamp(18px,5vw,30px)
+          calc(22px + env(safe-area-inset-bottom,0px));
 }
 .site-menu[hidden]{display:none !important}
 .site-menu.is-open:not([hidden]){display:flex;animation:menuFlood .6s var(--e-out) both}
@@ -170,13 +193,8 @@ h1,h2,h3,p{margin:0}
   from{clip-path:circle(28px at calc(100% - 40px) 38px)}
   to{clip-path:circle(180% at calc(100% - 40px) 38px)}
 }
-.site-menu-top{display:flex;align-items:center;justify-content:space-between;min-height:44px}
-.site-menu-logo{height:clamp(28px,3vw,36px);width:auto}
-.site-menu-close{padding:12px 0 12px 16px;font-size:12px;font-weight:600;letter-spacing:.14em;
-  text-transform:uppercase;color:var(--text-2);transition:color var(--t-fast) var(--e-ui)}
-.site-menu-close:hover{color:var(--accent)}
 
-.site-menu-links{display:flex;flex-direction:column;margin-top:clamp(26px,5vw,44px)}
+.site-menu-links{display:flex;flex-direction:column;margin-top:clamp(18px,4vw,36px)}
 .menu-link{
   display:flex;align-items:baseline;justify-content:space-between;gap:16px;
   padding:clamp(8px,1.4vw,14px) 0;border-bottom:1px solid var(--line);
@@ -536,43 +554,23 @@ h1,h2,h3,p{margin:0}
   mask-image:linear-gradient(90deg,transparent,#000 5%,#000 95%,transparent)}
 .rv-rail .mq-track{gap:var(--gap);align-items:stretch}
 .rv-card{
-  flex:none;width:clamp(290px,27vw,400px);display:flex;flex-direction:column;gap:12px;
-  padding:clamp(18px,1.9vw,26px);border:1px solid var(--line);border-radius:14px;
+  flex:none;width:clamp(228px,19vw,282px);height:230px;
+  display:flex;flex-direction:column;gap:8px;
+  padding:16px 17px;border:1px solid var(--line);border-radius:12px;
   background:var(--surface);
   transition:border-color var(--t-fast) var(--e-ui),background var(--t-fast) var(--e-ui)}
 .rv-card:hover{border-color:var(--line-2);background:var(--surface-2)}
-.rv-mark{display:block;font-size:46px;line-height:.5;color:var(--surface-3)}
-.rv-quote{font-size:15px;line-height:1.55;letter-spacing:-.02em;color:var(--text-2)}
-.rv-by{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:auto;padding-top:6px}
-.rv-av{display:grid;place-items:center;width:34px;height:34px;flex:none;border-radius:50%;
-  background:var(--surface-3);font-size:14px;font-weight:500;color:var(--text-2)}
-.rv-by b{font-size:15px;font-weight:500;letter-spacing:-.03em;color:var(--text)}
-.rv-by i{flex:1 0 100%;font-style:normal;font-size:12px;color:var(--text-4);padding-left:44px;margin-top:-4px}
-
-/* ═══════════════════════════════════════════════════════ 008 · REVIEWS */
-.rv-wrap{border:1px solid var(--line);border-radius:14px;background:var(--surface);
-  padding:clamp(18px,2.2vw,34px)}
-.rv-rating{display:flex;align-items:baseline;gap:12px;padding-bottom:20px;
-  border-bottom:1px solid var(--line)}
-.rv-rating b{font-size:clamp(28px,3vw,44px);font-weight:500;letter-spacing:-.05em;color:var(--accent)}
-.rv-stars{font-size:15px;letter-spacing:3px;color:var(--text-2)}
-.rv-stage{position:relative;padding:clamp(22px,2.6vw,38px) 0}
-.rv-slide{display:none}
-.rv-slide.is-active{display:block;animation:exIn 620ms var(--e-out) both}
-.rv-mark{display:block;font-size:64px;line-height:.6;color:var(--surface-3)}
-.rv-quote{margin-top:18px;max-width:58ch;font-size:clamp(17px,1.75vw,26px);line-height:1.45;
-  letter-spacing:-.035em;color:var(--text)}
-.rv-by{margin-top:22px}
-.rv-by b{display:block;font-size:16px;font-weight:500;letter-spacing:-.03em}
-.rv-by i{display:block;margin-top:2px;font-style:normal;font-size:13px;color:var(--text-4)}
-.rv-chips{display:flex;flex-wrap:wrap;gap:8px}
-.rv-chip{display:grid;place-items:center;width:38px;height:38px;border-radius:50%;
-  border:1px solid var(--line);background:var(--surface-2);
-  font-size:14px;font-weight:500;color:var(--text-3);
-  transition:border-color var(--t-fast) var(--e-ui),color var(--t-fast) var(--e-ui),
-             background var(--t-fast) var(--e-ui),transform var(--t-fast) var(--e-back)}
-.rv-chip:hover{color:var(--text);border-color:var(--line-2);transform:translateY(-2px)}
-.rv-chip.is-active{background:var(--accent);color:var(--on-accent);border-color:var(--accent)}
+.rv-mark{display:block;font-size:28px;line-height:.42;color:var(--surface-3)}
+/* clamped so every card is the same height and both rails stay on screen */
+.rv-quote{font-size:12.5px;line-height:1.5;letter-spacing:-.01em;color:var(--text-2);
+  display:-webkit-box;-webkit-line-clamp:7;-webkit-box-orient:vertical;overflow:hidden}
+.rv-by{display:flex;align-items:center;gap:8px;margin-top:auto;padding-top:8px;
+  border-top:1px solid var(--line)}
+.rv-av{display:grid;place-items:center;width:26px;height:26px;flex:none;border-radius:50%;
+  background:var(--surface-3);font-size:12px;font-weight:500;color:var(--text-2)}
+.rv-by b{font-size:13px;font-weight:500;letter-spacing:-.02em;color:var(--text);line-height:1.2}
+.rv-by i{font-style:normal;font-size:11px;color:var(--text-4);line-height:1.2}
+.rv-meta{display:flex;flex-direction:column;min-width:0}
 
 /* ═════════════════════════════════════════════════════ 009 · AFTERCARE */
 .ac-grid{display:grid;grid-template-columns:1fr 1fr;gap:var(--gap);align-items:stretch}
@@ -713,7 +711,7 @@ h1,h2,h3,p{margin:0}
 @media (max-width:1199px){
   :root{--rail:20px}
   .site-nav,.site-head-cta{display:none}        /* burger takes over here */
-  .site-burger{display:flex}
+  .site-burger{display:grid}
   .hero-wrap{grid-template-columns:minmax(0,1fr) minmax(200px,.62fr);
     grid-template-areas:"slogan slogan" "main card";gap:22px}
   .hero-slogan{grid-area:slogan}
@@ -793,7 +791,7 @@ h1,h2,h3,p{margin:0}
   .plan-media{aspect-ratio:16/9}
   .ac-meta{grid-template-columns:1fr}
   .ac-stage{aspect-ratio:4/3;padding:22px}
-  .rv-card{width:clamp(250px,80vw,320px)}
+  .rv-card{width:clamp(210px,66vw,250px);height:214px}
 
   .ft-top{grid-template-columns:1fr}
   .ft-brand,.ft-news{grid-column:span 1}

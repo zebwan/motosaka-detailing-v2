@@ -71,7 +71,7 @@
   });
 
   /* ────────────────────────────────────────────────────────────── the menu */
-  const menu = $('#menu'), burger = $('#burger'), menuClose = $('#menuClose');
+  const menu = $('#menu'), burger = $('#burger');
   const head = $('#siteHead');
 
   function openMenu() {
@@ -80,6 +80,7 @@
     requestAnimationFrame(() => menu.classList.add('is-open'));
     burger.setAttribute('aria-expanded', 'true');
     burger.setAttribute('aria-label', 'Close menu');
+    head?.classList.add('is-over-menu');
   }
   function closeMenu() {
     if (!document.body.classList.contains('menu-open')) return;
@@ -88,10 +89,10 @@
     menu.hidden = true;
     burger.setAttribute('aria-expanded', 'false');
     burger.setAttribute('aria-label', 'Open menu');
+    head?.classList.remove('is-over-menu');
   }
   burger.addEventListener('click', () =>
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu());
-  menuClose?.addEventListener('click', closeMenu);
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
 
   /* ──────────────────────────────────────────────────────── back to top */

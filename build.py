@@ -67,6 +67,26 @@ menu_links = ''.join(
     f'<a href="{e(h)}" class="menu-link" style="--i:{i}"><span>{e(t)}</span>'
     f'<i>{str(i + 1).zfill(2)}</i></a>' for i, (t, h) in enumerate(NAV))
 
+BIKE_SVG = '''<svg class="bike" viewBox="0 0 62 32" fill="none" aria-hidden="true">
+  <g class="bike-smoke">
+    <circle cx="9" cy="24.4" r="1.7"/><circle cx="5.4" cy="21.4" r="2.3"/><circle cx="2.6" cy="17.6" r="1.6"/>
+  </g>
+  <g class="bike-body" stroke="currentColor" stroke-width="2.3" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="16" cy="21.5" r="7.6"/>
+    <circle cx="48" cy="21.5" r="7.6"/>
+    <path d="M12.6 26 L22 24.2"/>
+    <path d="M16 21.5 H27"/>
+    <path d="M42.5 12.8 L48 21.5"/>
+    <path d="M42.5 12.8 L45.5 8.2"/>
+    <path d="M41.5 7.4 H49"/>
+  </g>
+  <g class="bike-body-fill" fill="currentColor">
+    <rect x="25.4" y="16.8" width="10.4" height="6.6" rx="2.1"/>
+    <path d="M17.6 13.4 h8.9 l4.6 -3.7 h7.4 l3.4 3.9 -8.4 2.2 -6.6 1.1 -6.6 0 a2 2 0 0 1 -2.7 -3.5 z"/>
+  </g>
+</svg>'''
+
+
 PHONE_SVG = ('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 '
              '19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 '
              '0 1 2 1.7c.1 1 .3 1.9.6 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.3a2 2 0 0 1 '
@@ -84,16 +104,10 @@ NAVBAR = f'''
     <a class="btn btn-accent site-head-cta" href="{WA}" target="_blank" rel="noopener">
       {PHONE_SVG}<span>Book Appointment</span></a>
     <button class="site-burger" id="burger" type="button" aria-label="Open menu"
-            aria-expanded="false" aria-controls="menu">
-      <span></span><span></span><span></span>
-    </button>
+            aria-expanded="false" aria-controls="menu">{BIKE_SVG}</button>
   </div>
 </header>
 <div class="site-menu" id="menu" hidden>
-  <div class="site-menu-top">
-    <img class="site-menu-logo" src="assets/img/logo.webp" alt="{e(BRAND['name'])}" width="150" height="58">
-    <button class="site-menu-close" id="menuClose" type="button">Close</button>
-  </div>
   <nav class="site-menu-links">{menu_links}</nav>
   <div class="site-menu-foot">
     <div><span class="micro">Studio</span><p>{e(BRAND['address_l1'])}<br>{e(BRAND['address_l2'])}</p></div>
@@ -353,7 +367,8 @@ def rv_card(nm, ago, txt):
     return (f'<article class="rv-card"><span class="rv-mark">&rdquo;</span>'
             f'<p class="rv-quote">{e(txt)}</p>'
             f'<div class="rv-by"><span class="rv-av">{e(nm[0].upper())}</span>'
-            f'<b>{e(nm)}</b><i>{e(ago)} &middot; Google</i></div></article>')
+            f'<span class="rv-meta"><b>{e(nm)}</b><i>{e(ago)} &middot; Google</i></span>'
+            f'</div></article>')
 
 
 _half = (len(REVIEWS['items']) + 1) // 2
