@@ -138,10 +138,16 @@ Desktop (≥1200px) shows the logo, the nav links and a Book Appointment button 
 since the links are already there.
 
 Below 1200px they give way to a **motorcycle icon** instead of a hamburger: a hand-drawn inline SVG
-with an engine block, tank and exhaust, sitting bare in the bar with no button chrome around it. Its wheels roll on hover, and when the menu is open the bike
-leans forward and puffs **smoke out of the exhaust** on a loop. The header sits above the open menu
-so the icon stays visible as the toggle — there is no separate close button. The menu itself floods
-open on a clip-path circle grown from the icon, with the links staggering in behind it.
+with an engine block, tank and exhaust, sitting bare in the bar with no button chrome around it. Its
+wheels roll on hover, and when the menu is open the bike leans forward and puffs **smoke out of the
+exhaust** on a loop.
+
+The menu itself is a **near-white slab** (`#EDEDED`) — the inverse of the site — flooding open on a
+clip-path circle grown from the bike. It holds a tight uppercase nav stack with superscript counts
+(`WORK⁽¹⁹⁾`, `PROCESS⁽⁴⁾`, `PACKAGES⁽⁶⁾`, `REVIEWS⁽⁹⁾`, `FAQ⁽⁸⁾`), the current place greyed out,
+hovering one link dimming the rest; a FOLLOW US block; and the studio's **live local time** in Johor
+Bahru along the bottom. The header sits above the panel and flips its logo and bike to ink, so the
+bike stays visible as the toggle — there is no separate close button.
 
 A back-to-top button appears bottom-right once you are past the first screen.
 

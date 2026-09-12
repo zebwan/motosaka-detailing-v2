@@ -29,6 +29,27 @@ NAV = [
     ("Contact", "#contact"),
 ]
 
+# The full-screen menu: label, href, superscript count (None = no count),
+# and whether it reads as the current place.
+MENU = [
+    ("Home",     "#top",       None, True),
+    ("Work",     "#work",      "19", False),
+    ("Process",  "#process",   "4",  False),
+    ("Packages", "#packages",  "6",  False),
+    ("Reviews",  "#reviews",   "9",  False),
+    ("FAQ",      "#faq",       "8",  False),
+    ("Contact",  "#contact",   None, False),
+]
+
+MENU_FOOT = {
+    "follow_label": "Follow us",
+    "socials": [("Instagram", "https://www.instagram.com/motosakadetailing"),
+                ("WhatsApp", "https://wa.me/60124058765"),
+                ("Email", "mailto:motosakadetailing@gmail.com")],
+    "place": "Johor Bahru",
+    "timezone": "Asia/Kuala_Lumpur",
+}
+
 HERO = {
     "slogan_1": "You ride,",
     "slogan_2": "we refine.",

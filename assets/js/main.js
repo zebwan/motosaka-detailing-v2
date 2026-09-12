@@ -81,6 +81,7 @@
     burger.setAttribute('aria-expanded', 'true');
     burger.setAttribute('aria-label', 'Close menu');
     head?.classList.add('is-over-menu');
+    startClock();
   }
   function closeMenu() {
     if (!document.body.classList.contains('menu-open')) return;
@@ -90,10 +91,25 @@
     burger.setAttribute('aria-expanded', 'false');
     burger.setAttribute('aria-label', 'Open menu');
     head?.classList.remove('is-over-menu');
+    stopClock();
   }
   burger.addEventListener('click', () =>
     document.body.classList.contains('menu-open') ? closeMenu() : openMenu());
   document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMenu(); });
+
+  /* studio clock in the menu — ticks only while the panel is open */
+  const clock = $('.site-menu-clock');
+  let clockTimer = 0;
+  function tickClock() {
+    if (!clock) return;
+    try {
+      clock.textContent = new Intl.DateTimeFormat('en-US', {
+        timeZone: clock.dataset.tz, hour: 'numeric', minute: '2-digit', hour12: true,
+      }).format(new Date());
+    } catch { clock.textContent = ''; }
+  }
+  function startClock() { tickClock(); clearInterval(clockTimer); clockTimer = setInterval(tickClock, 15000); }
+  function stopClock() { clearInterval(clockTimer); clockTimer = 0; }
 
   /* ──────────────────────────────────────────────────────── back to top */
   const toTop = $('#toTop');

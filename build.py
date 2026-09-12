@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Generates index.html from content.py.  Run:  python3 build.py"""
 import html, re
-from content import (BRAND, NAV, HERO, INTRO, WORK, PROCESS, EXHAUST, REELS,
+from content import (BRAND, NAV, MENU, MENU_FOOT, HERO, INTRO, WORK, PROCESS, EXHAUST, REELS,
                      PACKAGES, FAQ, TEAM, REVIEWS, AFTERCARE, CONTACT, FOOTER)
 
 e = lambda s: html.escape(str(s), quote=True)
@@ -64,8 +64,13 @@ def status_link(text, href):
 # ══════════════════════════════════════════════════════════════════ NAV
 nav_links = ''.join(f'<a href="{e(h)}">{e(t)}</a>' for t, h in NAV)
 menu_links = ''.join(
-    f'<a href="{e(h)}" class="menu-link" style="--i:{i}"><span>{e(t)}</span>'
-    f'<i>{str(i + 1).zfill(2)}</i></a>' for i, (t, h) in enumerate(NAV))
+    f'<a href="{e(h)}" class="menu-link{" is-current" if cur else ""}" style="--i:{i}">'
+    f'{e(t)}{f"<sup>({e(n)})</sup>" if n else ""}</a>'
+    for i, (t, h, n, cur) in enumerate(MENU))
+
+menu_socials = ''.join(
+    f'<a href="{e(h)}"{" target=_blank rel=noopener" if h.startswith("http") else ""}>{e(t)}</a>'
+    for t, h in MENU_FOOT['socials'])
 
 BIKE_SVG = '''<svg class="bike" viewBox="0 0 62 32" fill="none" aria-hidden="true">
   <g class="bike-smoke">
@@ -110,12 +115,15 @@ NAVBAR = f'''
 <div class="site-menu" id="menu" hidden>
   <nav class="site-menu-links">{menu_links}</nav>
   <div class="site-menu-foot">
-    <div><span class="micro">Studio</span><p>{e(BRAND['address_l1'])}<br>{e(BRAND['address_l2'])}</p></div>
-    <div><span class="micro">Contact</span><p><a href="tel:+{e(BRAND['phone_raw'])}">{e(BRAND['phone_display'])}</a><br>
-      <a href="mailto:{e(BRAND['email'])}">{e(BRAND['email'])}</a></p></div>
-    <a class="btn btn-accent" href="{WA}" target="_blank" rel="noopener">{PHONE_SVG}<span>Book Appointment</span></a>
+    <span class="site-menu-follow">{e(MENU_FOOT['follow_label'])}</span>
+    <div class="site-menu-socials">{menu_socials}</div>
   </div>
-</div>'''
+  <div class="site-menu-bar">
+    <span>{e(MENU_FOOT['place'])}</span>
+    <span class="site-menu-clock" data-tz="{e(MENU_FOOT['timezone'])}">--:-- --</span>
+  </div>
+</div>
+'''
 
 # ═════════════════════════════════════════════════════════════════ HERO
 stats = ''.join(f'''
