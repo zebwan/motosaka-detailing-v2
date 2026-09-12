@@ -138,7 +138,7 @@ Desktop (≥1200px) shows the logo, the nav links and a Book Appointment button 
 since the links are already there.
 
 Below 1200px they give way to a **motorcycle icon** instead of a hamburger: a hand-drawn inline SVG
-with an engine block, tank and exhaust. Its wheels roll on hover, and when the menu is open the bike
+with an engine block, tank and exhaust, sitting bare in the bar with no button chrome around it. Its wheels roll on hover, and when the menu is open the bike
 leans forward and puffs **smoke out of the exhaust** on a loop. The header sits above the open menu
 so the icon stays visible as the toggle — there is no separate close button. The menu itself floods
 open on a clip-path circle grown from the icon, with the links staggering in behind it.

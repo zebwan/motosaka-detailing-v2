@@ -151,11 +151,10 @@ h1,h2,h3,p{margin:0}
 
 .site-burger{
   display:none;place-items:center;
-  width:58px;height:44px;padding:0 8px;flex:0 0 auto;margin-left:auto;
-  background:rgba(255,255,255,.07);border:1px solid var(--line);border-radius:12px;
-  color:var(--accent);
-  transition:background var(--t-fast) var(--e-ui),border-color var(--t-fast) var(--e-ui)}
-.site-burger:hover{background:rgba(255,255,255,.13);border-color:var(--line-2)}
+  width:auto;height:44px;padding:0;flex:0 0 auto;margin-left:auto;
+  background:none;border:0;color:var(--accent);
+  transition:opacity var(--t-fast) var(--e-ui)}
+.site-burger:hover{opacity:.75}
 .bike{width:42px;height:auto;overflow:visible}
 .bike-body,.bike-body-fill{transition:transform .45s var(--e-back)}
 .site-burger:hover .bike-body,.site-burger:hover .bike-body-fill{transform:translateX(1.5px)}
