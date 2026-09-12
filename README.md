@@ -100,9 +100,11 @@ Ported from the template, measured off the original rather than guessed:
 - **Sticky stacking cards** — Exhaust Revival and the team both stack on scroll instead of using
   prev/next buttons. On the team stack each card, as it is overtaken, scales down and slides out to
   the left; the exhaust cards simply settle back. No tapping required.
-- **Process panels expand, they do not fade** — the open panel animates its width from ~130px to
-  ~960px over 820ms, the body is revealed by an unrolling clip-path and the copy slides in behind it.
-  On mobile the same panel unfolds by height (`0fr → 1fr`), so it still reads as opening.
+- **Process panels push each other.** All four share one grid, and the whole track list animates
+  together over 900ms on `cubic-bezier(.22,1,.36,1)`, so the width the opening card gains is the
+  width its neighbour gives up — measured at a constant 1355px total. Nothing fades: the content is
+  laid out at full size and simply uncovered as the card widens. Mobile does the same vertically,
+  collapsing 491px → 68px while the next expands 68px → 491px.
 - **Two review rails** running in opposite directions (−26 and +22 px/sec), pausing on hover.
   Cards are 274×230 with the quote clamped to seven lines, so both rows sit on screen at once.
 - Scroll-into-view reveals with per-sibling stagger, count-up stats, parallax orbs.

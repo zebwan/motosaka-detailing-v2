@@ -374,19 +374,76 @@
   });
 
   /* ───────────────────────────────────────────── process panels (002) */
-  const panels = $$('.panel');
-  panels.forEach((p) => {
-    const head = $('.panel-head', p);
-    const open = () => {
-      if (p.classList.contains('is-open')) return;
-      panels.forEach((o) => {
-        o.classList.toggle('is-open', o === p);
-        $('.panel-head', o)?.setAttribute('aria-expanded', String(o === p));
+  /* One grid, one track list. Writing --cols animates every column together,
+     so the open card pushes its neighbours rather than covering them. */
+  const panelWrap = $('.panels');
+  const panels = $$('.panel', panelWrap || document);
+
+  if (panelWrap && panels.length) {
+    const OPEN = 7.4, SHUT = 1;            // track ratio, open : closed
+    let current = panels.findIndex((p) => p.classList.contains('is-open'));
+    if (current < 0) current = 0;
+
+    // set the property itself, not a custom property: an unregistered var()
+    // interpolates discretely, which makes the track list jump instead of ease
+    const writeCols = () => {
+      panelWrap.style.gridTemplateColumns =
+        panels.map((_, k) => `${k === current ? OPEN : SHUT}fr`).join(' ');
+    };
+
+    /* The body is laid out at the OPEN width at all times so its text never
+       reflows while the track is animating — so it has to know that width. */
+    const writeOpenWidth = () => {
+      const gap = parseFloat(getComputedStyle(panelWrap).columnGap) || 0;
+      const free = panelWrap.clientWidth - gap * (panels.length - 1);
+      const w = free * OPEN / (OPEN + SHUT * (panels.length - 1));
+      panelWrap.style.setProperty('--open-w', `${Math.round(w)}px`);
+    };
+    writeOpenWidth();
+    addEventListener('resize', writeOpenWidth);
+
+    /* Stacked (mobile) layout unfolds by height, and the height has to be a real
+       number — measure each body's content and hand it to CSS as --panel-h. */
+    const measureHeights = () => {
+      panels.forEach((p) => {
+        const body = $('.panel-body', p);
+        const inner = $('.panel-inner', p);
+        if (!body || !inner) return;
+        body.style.setProperty('--panel-h', `${inner.scrollHeight + 20}px`);
       });
     };
-    head.addEventListener('click', open);
-    if (!isTouch) p.addEventListener('pointerenter', open);
-  });
+    measureHeights();
+    addEventListener('resize', measureHeights);
+    addEventListener('load', measureHeights);
+    // images inside the panels change the height once they decode
+    $$('.panel-img img').forEach((img) => {
+      if (!img.complete) img.addEventListener('load', measureHeights, { once: true });
+    });
+
+    function open(i) {
+      if (i === current) return;
+      current = i;
+      writeCols();
+      panels.forEach((p, k) => {
+        p.classList.toggle('is-open', k === i);
+        $('.panel-head', p)?.setAttribute('aria-expanded', String(k === i));
+      });
+    }
+
+    writeCols();
+    panels.forEach((p, i) => {
+      $('.panel-head', p).addEventListener('click', () => open(i));
+      if (!isTouch) p.addEventListener('pointerenter', () => open(i));
+    });
+
+    // the grid only needs to be promoted while it is actually moving
+    panelWrap.addEventListener('transitionstart', (e) => {
+      if (e.propertyName === 'grid-template-columns') panelWrap.style.willChange = 'grid-template-columns';
+    });
+    panelWrap.addEventListener('transitionend', (e) => {
+      if (e.propertyName === 'grid-template-columns') panelWrap.style.willChange = 'auto';
+    });
+  }
 
   /* ─────────────────────────────────────────────────────── carousels */
   $$('[data-carousel]').forEach((wrap) => {   // (none left — stacks replaced them)

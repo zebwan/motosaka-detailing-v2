@@ -246,7 +246,7 @@ foot = ''.join(f'<div><b>{e(a)}</b><i>{e(b)}</i></div>' for a, b in PROCESS['foo
 PROCESS_HTML = f'''
 <section class="sec" id="process-sec">
 {head_rail(PROCESS['label'], PROCESS['index'], PROCESS['headline'], PROCESS['body'], PROCESS['note'], PROCESS['counter'], 'process')}
-  <div class="panels reveal">{panels}</div>
+  <div class="reveal"><div class="panels">{panels}</div></div>
   <div class="proc-foot reveal">{foot}</div>
 {status_link(*PROCESS['cta'])}
 </section>'''
