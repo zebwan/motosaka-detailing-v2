@@ -38,14 +38,13 @@ Numbered sections follow the template's editorial rail (label · index · headli
 | — | Intro (per-character scroll reveal) | "Quiet precision, considered care…" |
 | 001 | Our Work — bento gallery | gallery photos from the current site |
 | 002 | Our Process — 4 expanding panels | Assessment / Cleanse / Refine / Protect |
-| 003 | Exhaust Revival — before & after | the three exhaust video sets |
+| 003 | Exhaust Revival — scroll-stacking cards | the three exhaust video sets |
 | 004 | Behind The Work — reel marquee | reel videos |
 | 005 | Packages — 6 cards | real prices RM50 → RM1200 |
 | 006 | Questions & Answers — accordion | the 8 existing FAQs |
-| 007 | Meet the Team — carousel | **placeholder** (see below) |
-| 008 | Google Reviews — carousel | the 9 real reviews, verbatim |
+| 007 | Meet the Team — stacking cards | **placeholder** (see below) |
+| 008 | Google Reviews — two opposed rails | the 9 real reviews, verbatim |
 | 009 | Aftercare & Loyalty | care kit + loyalty card |
-| — | Ticker (white slab, 5 marquee rows) | brand wordmark |
 | — | Let's talk (pinned) + footer | real phone, email, address |
 
 ### What changed from the template
@@ -58,6 +57,7 @@ Numbered sections follow the template's editorial rail (label · index · headli
 - The monthly/yearly pricing toggle (Motosaka prices are per session, not subscriptions).
 - The "integration partners" / AI-model widgets.
 - The Framer template promo chrome ("New Template!" / "Buy Template").
+- The white wordmark ticker band, dropped on request.
 
 ---
 
@@ -76,10 +76,8 @@ band, primary buttons, prices).
 --line-2    rgba(255,255,255,.16)     --text-4  #5E5E5E
 ```
 
-**Photography is rendered greyscale** (`filter: grayscale(1)`) so the bikes sit inside the
-monochrome system, and returns to full colour on hover. If you'd rather the photos stay in colour
-throughout, delete the `grayscale(1)` values in `assets/css/style.css` — they're all in the
-`filter:` declarations.
+**Photography is in full colour.** Only the interface is monochrome — the bikes, the metalwork
+and the product shots all keep their own colour.
 
 Type is **Inter** at the template's exact scale and tracking (-0.05em on display sizes).
 
@@ -99,7 +97,13 @@ Ported from the template, measured off the original rather than guessed:
   character scrubs `opacity 0.1 → 1` against scroll position. This is exactly how the original does it.
 - **Hero particles** — canvas starfield with soft bokeh, drifts away from the cursor, particle
   count scales down on small screens, and the loop stops when the hero leaves the viewport.
-- **Five marquee rows** in the ticker at 30 / 48 / 26 / 66 / 34 px per second, seamless wrap.
+- **Sticky stacking cards** — Exhaust Revival and the team both stack on scroll instead of using
+  prev/next buttons. On the team stack each card, as it is overtaken, scales down and slides out to
+  the left; the exhaust cards simply settle back. No tapping required.
+- **Process panels expand, they do not fade** — the open panel animates its width from ~130px to
+  ~960px over 820ms, the body is revealed by an unrolling clip-path and the copy slides in behind it.
+  On mobile the same panel unfolds by height (`0fr → 1fr`), so it still reads as opening.
+- **Two review rails** running in opposite directions (−26 and +22 px/sec), pausing on hover.
 - Scroll-into-view reveals with per-sibling stagger, count-up stats, parallax orbs.
 
 ### On mobile and tablet
@@ -110,8 +114,8 @@ count-ups, and autoplaying video. The only deliberate differences:
 
 - Smooth-wheel is off on touch (native momentum feels better and avoids scroll-jacking).
 - Particle count is capped lower on small screens.
-- The process panels become a vertical accordion instead of horizontal columns.
-- Carousels gain swipe; hover-only affordances (the square arrow buttons) are always visible.
+- The process panels become a vertical accordion that unfolds by height instead of width.
+- Hover-only affordances (the square arrow buttons) are always visible.
 - `prefers-reduced-motion` disables the lot and shows everything in its final state.
 
 ---
@@ -127,6 +131,13 @@ transparency preserved.
 
 ---
 
+### Navigation
+
+Desktop (≥1200px) shows the logo, the nav links and a Book Appointment button — no hamburger, since
+the links are already there. Below 1200px the links and button give way to the burger, which opens a
+full-screen menu that floods out of the button on a clip-path circle with the links staggering in.
+A back-to-top button appears bottom-right once you are past the first screen.
+
 ## Needs client input
 
 1. **The team section is placeholder.** Six members with lorem ipsum text and blank grey profile
@@ -134,9 +145,10 @@ transparency preserved.
    `content.py → TEAM` when the real details arrive.
 2. **Stats in the hero** — "5.0 Google rating" and "RM50 starting price" are taken from the
    existing site. Confirm the review count you want shown, if any.
-3. **The contact form and newsletter both open WhatsApp** with the message prefilled, matching the
-   current site's booking behaviour. If you want real form submissions instead, they need a backend
-   or a form service.
+3. **Every enquiry goes to WhatsApp on +60 12-405 8765.** The contact form carries the name, email,
+   bike and the treatment chosen from its dropdown; each package's own "Reserve" button opens
+   WhatsApp already naming that package with its listed price and duration. The newsletter field
+   does the same. If you want real form submissions instead, they need a backend or a form service.
 4. **Instagram handle** is assumed to be `instagram.com/motosakadetailing` — confirm.
 5. The gallery "19 / 19" counter reflects the 19 photos carried over.
 
